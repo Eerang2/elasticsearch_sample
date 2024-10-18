@@ -21,19 +21,10 @@ public class AccommodationRestController {
     private final AccommodationService accommodationService;
 
     @PostMapping("/accommodation/create")
-    public ResponseEntity<String> create(@ModelAttribute @Valid AccommodationReq.Create req) {
+    public ResponseEntity<String> create(@ModelAttribute @Valid AccommodationReq.CreateFormType req) {
         log.info("Create accommodation [{}]", req);
-        Accommodation accommodation = Accommodation.builder()
-                .name(req.getName())
-                .description(req.getDescription())
-                .AccommodationType(req.getAccommodationType())
-                .locationGuideText(req.getLocationGuideText())
-                .parkingInfo(ParkingInfo.builder()
-                        .isFree(req.getParkingInfo().isFree())
-                        .type(req.getParkingInfo().getType())
-                        .build())
-                .build();
-       accommodationService.saveAcc(accommodation);
+        Accommodation accommodation = req.toAccommodation();
+        accommodationService.saveAcc(accommodation);
        return ResponseEntity.ok("success");
     }
 

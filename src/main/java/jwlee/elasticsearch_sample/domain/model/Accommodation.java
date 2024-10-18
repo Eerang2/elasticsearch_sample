@@ -32,7 +32,7 @@ public class Accommodation {
         return AccommodationEntity.builder()
                 .id(this.id)
                 .name(this.name)
-                .isFreeParking(this.parkingInfo.isFree())
+                .isFreeParking(this.parkingInfo.getIsFree())
                 .parkingType(this.parkingInfo.getType())
                 .description(this.description)
                 .locationGuideText(this.locationGuideText)

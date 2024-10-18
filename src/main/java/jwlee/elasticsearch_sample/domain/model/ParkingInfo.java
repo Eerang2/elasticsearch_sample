@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class ParkingInfo {
-    private boolean isFree;
+    private Boolean isFree;
     private ParkingType type;
 }
