@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,80 +9,70 @@
 <body>
 <div class="container mt-5">
     <h2>숙소 등록</h2>
-    <form id="accommodation-form">
+
+    <!-- 타임리프 폼 설정 -->
+    <form th:action="@{/api/accommodation/create}" th:object="${accommodation}" method="post" >
+
         <div class="form-group">
             <label for="name">숙소명</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="숙소명을 입력하세요" required>
+            <!-- DTO 필드 name과 연결 -->
+            <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="숙소명을 입력하세요" required>
+            <!-- 유효성 검사 오류 메시지 출력 -->
+            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></div>
         </div>
 
         <div class="form-group">
-            <label for="type">숙소 타입</label>
-            <select class="form-control" id="type" name="type" required>
-                <option value="HOTEL">호텔</option>
-                <option value="MOTEL">모텔</option>
-                <option value="GUEST_HOUSE">게스트 하우스</option>
-                <option value="HOSTEL">호스텔</option>
+            <label for="accommodationType">숙소 타입</label>
+            <!-- DTO 필드 accommodationType과 연결 -->
+            <select class="form-control" id="accommodationType" th:field="*{accommodationType}" required>
+                <option th:each="type : ${T(jwlee.elasticsearch_sample.domain.enums.AccommodationType).values()}"
+                        th:value="${type.name()}"
+                        th:text="${type.name()}"></option>
             </select>
+            <div th:if="${#fields.hasErrors('accommodationType')}" th:errors="*{accommodationType}" class="text-danger"></div>
         </div>
 
         <div class="form-group">
             <label for="locationGuideText">위치 가이드</label>
-            <input type="text" class="form-control" id="locationGuideText" name="locationGuideText" placeholder="위치 가이드를 입력하세요">
+            <!-- DTO 필드 locationGuideText와 연결 -->
+            <input type="text" class="form-control" id="locationGuideText" th:field="*{locationGuideText}" placeholder="위치 가이드를 입력하세요" required>
+            <div th:if="${#fields.hasErrors('locationGuideText')}" th:errors="*{locationGuideText}" class="text-danger"></div>
         </div>
 
         <div class="form-group">
             <label for="description">설명</label>
-            <textarea class="form-control" id="description" name="description" rows="3" placeholder="숙소에 대한 설명을 입력하세요" required></textarea>
+            <!-- DTO 필드 description과 연결 -->
+            <textarea class="form-control" id="description" th:field="*{description}" rows="3" placeholder="숙소에 대한 설명을 입력하세요" required></textarea>
+            <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></div>
         </div>
 
         <div class="form-group">
-            <label for="parkingInfo">주차 가능 여부</label>
-            <select class="form-control" id="parkingInfo" name="parkingInfo" required>
-                <option value="true">가능</option>
-                <option value="false">불가능</option>
+            <label for="isFree">주차 가능 여부</label>
+            <!-- DTO 필드 parkingInfo와 연결 (boolean) -->
+            <select class="form-control" id="isFree" th:field="*{parkingInfo.free}" required>
+                <option value=true>가능</option>
+                <option value=false>불가능</option>
             </select>
         </div>
 
         <div class="form-group">
             <label for="parkingType">주차 타입</label>
-            <select class="form-control" id="parkingType" name="parkingType">
-                <option value="MACHINE">기계식</option>
-                <option value="SELF">자가</option>
-                <option value="VALET">발렛</option>
+            <!-- DTO 필드 parkingType과 연결 -->
+            <select class="form-control" id="parkingType" th:field="*{parkingInfo}">
+                <option th:each="type : ${T(jwlee.elasticsearch_sample.domain.enums.ParkingType).values()}"
+                        th:value="${type.name()}"
+                        th:text="${type.name()}"></option>
             </select>
         </div>
 
-        <div class="form-group">
-            <label for="images">이미지 업로드</label>
-            <input type="file" class="form-control-file" id="images" name="images" multiple>
-        </div>
+<!--        <div class="form-group">-->
+<!--            <label for="images">이미지 업로드</label>-->
+<!--            &lt;!&ndash; 파일 업로드 필드 (이미지 업로드 처리 설정) &ndash;&gt;-->
+<!--            <input type="file" class="form-control-file" id="images" name="images" multiple>-->
+<!--        </div>-->
 
         <button type="submit" class="btn btn-primary">등록</button>
     </form>
 </div>
-
-<script>
-    document.getElementById('accommodation-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const formData = new FormData(this);
-
-        //
-        // 예: fetch('/api/accommodation/register', {
-        //     method: 'POST',
-        //     body: formData
-        // })
-        // .then(response => response.json())
-        // .then(data => {
-        //     alert('숙소가 성공적으로 등록되었습니다.');
-        //     // 등록 후 다른 페이지로 이동하거나 폼을 리셋할 수 있습니다.
-        //     this.reset();
-        // })
-        // .catch(error => {
-        //     alert('숙소 등록에 실패했습니다.');
-        //     console.error('Error:', error);
-        // });
-    });
-</script>
 </body>
 </html>

@@ -2,12 +2,10 @@ package jwlee.elasticsearch_sample.domain.model;
 
 import jwlee.elasticsearch_sample.domain.enums.AccommodationType;
 import jwlee.elasticsearch_sample.domain.repository.entity.AccommodationEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

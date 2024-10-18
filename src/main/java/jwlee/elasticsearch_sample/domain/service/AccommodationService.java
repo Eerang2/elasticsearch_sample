@@ -19,8 +19,7 @@ public class AccommodationService {
     private final AccommodationRepository accommodationRepository;
 
     public Accommodation saveAcc(Accommodation accommodation) {
-         AccommodationEntity entity = accommodationRepository.save(accommodation.toEntity());
-         // ac -> acEntity
-        return null;
+        AccommodationEntity entity = accommodationRepository.save(accommodation.toEntity());
+        return Accommodation.from(entity);
      }
 }
