@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elasticsearch Accommodation Search</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 60px;
+        }
+        .header, .navbar {
+            margin-bottom: 20px;
+        }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<!-- Header with Login and Signup -->
+<header class="header">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1>Accommodation Finder</h1>
+            <div>
+                <a href="/login" class="btn btn-outline-primary">로그인</a>
+                <a href="/signup" class="btn btn-outline-secondary">회원가입</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Navigation bar with Register link -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">홈</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">숙소 등록</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Search container -->
+<div class="search-container">
+    <form id="search-form" class="form-inline">
+        <input type="text" id="search-input" class="form-control mr-2" placeholder="숙소 검색" />
+        <button type="submit" class="btn btn-primary">검색</button>
+    </form>
+</div>
+
+<!-- Table for listing accommodations -->
+<div class="container">
+    <h2>숙소 목록</h2>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>숙소명</th>
+            <th>타입</th>
+            <th>위치 가이드</th>
+            <th>설명</th>
+            <th>주차 정보</th>
+            <th>등록일</th>
+        </tr>
+        </thead>
+        <tbody id="accommodation-list">
+        <!-- 이 부분에 검색 결과나 전체 리스트가 들어갑니다. -->
+        <tr>
+            <td colspan="7" class="text-center">검색 결과가 없습니다.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.getElementById('search-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const query = document.getElementById('search-input').value;
+
+        //
+        // 예: fetch('/api/accommodation/search?q=' + query)
+        //     .then(response => response.json())
+        //     .then(data => updateTable(data));
+    });
+
+    function updateTable(data) {
+        const listElement = document.getElementById('accommodation-list');
+        listElement.innerHTML = '';
+
+        if (data.length === 0) {
+            listElement.innerHTML = '<tr><td colspan="7" class="text-center">검색 결과가 없습니다.</td></tr>';
+            return;
+        }
+
+        data.forEach(accommodation => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                    <td>${accommodation.id}</td>
+                    <td>${accommodation.name}</td>
+                    <td>${accommodation.type}</td>
+                    <td>${accommodation.locationGuideText}</td>
+                    <td>${accommodation.description}</td>
+                    <td>${accommodation.parkingInfo}</td>
+                    <td>${accommodation.createdAt || 'N/A'}</td>
+                `;
+            listElement.appendChild(row);
+        });
+    }
+</script>
+</body>
+</html>
