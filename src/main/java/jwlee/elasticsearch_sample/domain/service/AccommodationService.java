@@ -9,7 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -21,5 +24,12 @@ public class AccommodationService {
     public Accommodation saveAcc(Accommodation accommodation) {
         AccommodationEntity entity = accommodationRepository.save(accommodation.toEntity());
         return Accommodation.from(entity);
+     }
+
+     public List<Accommodation> findAll() {
+        List<AccommodationEntity> entities = accommodationRepository.findAll();
+        return entities.stream()
+                .map(Accommodation::from)
+                .collect(Collectors.toList());
      }
 }

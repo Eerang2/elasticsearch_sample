@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,7 +40,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/register">숙소 등록</a>
+                    <a class="nav-link" href="/accommodation/create">숙소 등록</a>
                 </li>
             </ul>
         </div>
@@ -66,13 +66,23 @@
             <th>타입</th>
             <th>위치 가이드</th>
             <th>설명</th>
-            <th>주차 정보</th>
-            <th>등록일</th>
+            <th>주차 타입</th>
+            <th>주차 가능여부</th>
         </tr>
         </thead>
-        <tbody id="accommodation-list">
-        <!-- 이 부분에 검색 결과나 전체 리스트가 들어갑니다. -->
-        <tr>
+        <tbody>
+        <!-- List of accommodations will be rendered here using Thymeleaf -->
+        <tr th:each="accommodation : ${accommodations}">
+            <td th:text="${accommodation.id}"></td>
+            <td th:text="${accommodation.name}"></td>
+            <td th:text="${accommodation.accommodationType}"></td>
+            <td th:text="${accommodation.locationGuideText}"></td>
+            <td th:text="${accommodation.description}"></td>
+            <td th:text="${accommodation.parkingInfo.type}"></td>
+            <td th:text="${accommodation.parkingInfo.isFree}"></td>
+        </tr>
+        <!-- If the list is empty, display a message -->
+        <tr th:if="${accommodations.isEmpty()}">
             <td colspan="7" class="text-center">검색 결과가 없습니다.</td>
         </tr>
         </tbody>
@@ -84,10 +94,10 @@
         event.preventDefault();
         const query = document.getElementById('search-input').value;
 
-        //
-        // 예: fetch('/api/accommodation/search?q=' + query)
-        //     .then(response => response.json())
-        //     .then(data => updateTable(data));
+        // Example of fetch function for the search
+        fetch('/api/accommodation/search?q=' + query)
+            .then(response => response.json())
+            .then(data => updateTable(data));
     });
 
     function updateTable(data) {
@@ -102,14 +112,14 @@
         data.forEach(accommodation => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                    <td>${accommodation.id}</td>
-                    <td>${accommodation.name}</td>
-                    <td>${accommodation.type}</td>
-                    <td>${accommodation.locationGuideText}</td>
-                    <td>${accommodation.description}</td>
-                    <td>${accommodation.parkingInfo}</td>
-                    <td>${accommodation.createdAt || 'N/A'}</td>
-                `;
+                <td>${accommodation.id}</td>
+                <td>${accommodation.name}</td>
+                <td>${accommodation.accommodationType}</td>
+                <td>${accommodation.locationGuideText}</td>
+                <td>${accommodation.description}</td>
+                <td>${accommodation.parkingType}</td>
+                <td>${accommodation.isFree}</td>
+            `;
             listElement.appendChild(row);
         });
     }
