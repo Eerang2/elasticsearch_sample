@@ -17,10 +17,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 class AccommodationRestControllerTest extends BaseMockMvcTest {
 
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Test
     @DisplayName("숙소 등록 성공")
     void save() throws Exception {
@@ -37,6 +33,22 @@ class AccommodationRestControllerTest extends BaseMockMvcTest {
 
         // then
         resultActions.andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("숙소 이름 안넣고 넘겼을때 valid 걸리는지 테스트")
+    void validate() throws Exception {
+        final ResultActions resultActions = this.mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/accommodation/create")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)  // 폼 데이터 전송 방식
+                        .param("name", "")
+                        .param("description", "5성급 최고급 호텔")
+                        .param("accommodationType", AccommodationType.HOTEL.name())
+                        .param("isFree", "true")
+                        .param("parkingType", ParkingType.MACHINE.name())
+                        .param("locationGuideText", "예약 후에 문자 드려요")
+        );
+        resultActions.andExpect(status().isBadRequest());
     }
 
 }
