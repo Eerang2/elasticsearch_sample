@@ -7,6 +7,7 @@ import jwlee.elasticsearch_sample.web.dto.AccommodationReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,5 +32,11 @@ public class AccommodationService {
         return entities.stream()
                 .map(Accommodation::from)
                 .collect(Collectors.toList());
+     }
+
+     @Cacheable(cacheNames = "accommodation", key = "#id", cacheManager = "accommodationCacheManager", condition = "#id > 0")
+     public Accommodation findAccommodationById(long id) {
+        AccommodationEntity accommodationEntity = accommodationRepository.findAccommodationEntityById(id).orElseThrow(NullPointerException::new);
+        return Accommodation.from(accommodationEntity);
      }
 }

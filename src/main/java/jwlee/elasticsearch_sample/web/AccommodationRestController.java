@@ -20,11 +20,16 @@ public class AccommodationRestController {
 
     private final AccommodationService accommodationService;
 
+    @GetMapping("/{id}")
+    public Accommodation getById(@PathVariable long id) {
+        return accommodationService.findAccommodationById(id);
+    }
+
     @PostMapping("/accommodation/create")
     public ResponseEntity<String> create(@ModelAttribute @Valid AccommodationReq.CreateFormType req) {
         log.info("Create accommodation [{}]", req);
         Accommodation accommodation = req.toAccommodation();
-        accommodationService.saveAcc(accommodation);
+        Accommodation accommodation1 = accommodationService.saveAcc(accommodation);
        return ResponseEntity.ok("success");
     }
 
