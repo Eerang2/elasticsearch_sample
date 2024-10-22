@@ -1,4 +1,4 @@
-package jwlee.common;
+package jwlee.elasticsearch_sample;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;

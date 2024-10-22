@@ -1,4 +1,4 @@
-package jwlee.common;
+package jwlee.elasticsearch_sample;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;

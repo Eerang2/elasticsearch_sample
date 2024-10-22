@@ -1,12 +1,10 @@
 package jwlee.elasticsearch_sample.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jwlee.common.BaseMockMvcTest;
+import jwlee.elasticsearch_sample.BaseMockMvcTest;
 import jwlee.elasticsearch_sample.domain.enums.AccommodationType;
 import jwlee.elasticsearch_sample.domain.enums.ParkingType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;

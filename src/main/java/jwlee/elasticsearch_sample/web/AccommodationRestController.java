@@ -20,8 +20,8 @@ public class AccommodationRestController {
 
     private final AccommodationService accommodationService;
 
-    @GetMapping("/{id}")
-    public Accommodation getById(@PathVariable long id) {
+    @GetMapping("/accommodation/{id}")
+    public Accommodation getById(@PathVariable Long id) {
         return accommodationService.findAccommodationById(id);
     }
 
