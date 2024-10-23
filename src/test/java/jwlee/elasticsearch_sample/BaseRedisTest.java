@@ -1,5 +1,7 @@
 package jwlee.elasticsearch_sample;
 
+import jwlee.elasticsearch_sample.domain.config.RedisCacheConfig;
+import jwlee.elasticsearch_sample.domain.config.RedisConfig;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;

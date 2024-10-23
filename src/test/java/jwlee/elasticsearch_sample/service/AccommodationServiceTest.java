@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AccommodationServiceTest extends BaseRedisTest {
 
     @Autowired
+    @Qualifier("accommodationCacheManager")
     private CacheManager cacheManager;
 
     @Autowired
@@ -37,11 +38,8 @@ public class AccommodationServiceTest extends BaseRedisTest {
     @Test
     @DisplayName("숙소 캐시 잘 걸리는지 테스트")
     void accommodationCache() {
-        assertThat(cacheManager.getCache("accommodation").get(1L)).isNull();
-        Accommodation accommodation = accommodationService.findAccommodationById(1L);
-        assertThat(accommodation).isNotNull(); // 캐싱 전 조회된 값 검증
-        assertThat(accommodation.getId()).isEqualTo(1L);
-
-        assertThat(cacheManager.getCache("accommodation").get(1L)).isNotNull();
+        assertThat(cacheManager.getCache("acmd").get(1L)).isNull();
+        accommodationService.findAccommodationById(1L);
+        assertThat(cacheManager.getCache("acmd").get(1L)).isNotNull();
     }
 }

@@ -1,6 +1,7 @@
 package jwlee.elasticsearch_sample.domain.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -10,6 +11,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
+@EnableCaching
 public class RedisConfig {
 
     @Value("${spring.data.redis.host}")
@@ -18,12 +20,16 @@ public class RedisConfig {
     @Value("${spring.data.redis.port}")
     private String port;
 
+    @Value("${spring.data.redis.database}")
+    private int database;
+
 //    @Value("${spring.data.redis.password}")
 //    private String password;
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(host, Integer.parseInt(port));
+        redisStandaloneConfiguration.setDatabase(database);
         //redisStandaloneConfiguration.setPassword(password);
         return new LettuceConnectionFactory(redisStandaloneConfiguration);
     }

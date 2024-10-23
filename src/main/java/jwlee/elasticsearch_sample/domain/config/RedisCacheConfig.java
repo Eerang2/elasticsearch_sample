@@ -1,5 +1,7 @@
 package jwlee.elasticsearch_sample.domain.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -17,13 +19,14 @@ import java.time.Duration;
 @EnableCaching
 public class RedisCacheConfig {
 
+    private static final Logger log = LoggerFactory.getLogger(RedisCacheConfig.class);
+
     @Bean
     public CacheManager accommodationCacheManager(RedisConnectionFactory cf) {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())) // Value Serializer 변경
                 .entryTtl(Duration.ofHours(1L)); // 캐시 수명 30분
-
         return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(cf).cacheDefaults(redisCacheConfiguration).build();
     }
 }

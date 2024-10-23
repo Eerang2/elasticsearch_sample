@@ -4,10 +4,7 @@ import jakarta.persistence.*;
 import jwlee.elasticsearch_sample.domain.enums.AccommodationType;
 import jwlee.elasticsearch_sample.domain.enums.ParkingType;
 import jwlee.elasticsearch_sample.domain.model.ParkingInfo;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -18,6 +15,7 @@ import org.hibernate.type.SqlTypes;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class AccommodationEntity {
 
     @Id

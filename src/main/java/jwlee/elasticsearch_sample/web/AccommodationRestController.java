@@ -9,6 +9,7 @@ import jwlee.elasticsearch_sample.domain.service.AccommodationService;
 import jwlee.elasticsearch_sample.web.dto.AccommodationReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class AccommodationRestController {
     private final AccommodationService accommodationService;
 
     @GetMapping("/accommodation/{id}")
-    public Accommodation getById(@PathVariable Long id) {
+    public Accommodation getById(@PathVariable("id") @Valid Long id) {
         return accommodationService.findAccommodationById(id);
     }
 
