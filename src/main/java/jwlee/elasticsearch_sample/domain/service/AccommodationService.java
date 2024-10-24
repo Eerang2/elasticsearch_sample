@@ -32,10 +32,9 @@ public class AccommodationService {
                 .collect(Collectors.toList());
      }
     @Transactional
-    @Cacheable(cacheNames = "acmd", key = "#id", cacheManager = "accommodationCacheManager", condition = "#id > 0 ")
+    @Cacheable(cacheNames = "accommodation", key = "#id", cacheManager = "accommodationCacheManager", condition = "#id > 0 ")
     public Accommodation findAccommodationById(Long id) {
         AccommodationEntity accommodationEntity = accommodationRepository.findAccommodationEntityById(id).orElseThrow(NotFoundAccommodationException::new);
-        log.info("aaaaa : {}", Accommodation.from(accommodationEntity));
         return Accommodation.from(accommodationEntity);
     }
 }

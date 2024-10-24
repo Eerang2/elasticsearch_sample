@@ -2,7 +2,6 @@ package jwlee.elasticsearch_sample.service;
 
 import jakarta.transaction.Transactional;
 import jwlee.elasticsearch_sample.BaseRedisTest;
-import jwlee.elasticsearch_sample.domain.model.Accommodation;
 import jwlee.elasticsearch_sample.domain.repository.AccommodationRepository;
 import jwlee.elasticsearch_sample.domain.repository.entity.AccommodationEntity;
 import jwlee.elasticsearch_sample.domain.service.AccommodationService;
@@ -38,8 +37,8 @@ public class AccommodationServiceTest extends BaseRedisTest {
     @Test
     @DisplayName("숙소 캐시 잘 걸리는지 테스트")
     void accommodationCache() {
-        assertThat(cacheManager.getCache("acmd").get(1L)).isNull();
+        assertThat(cacheManager.getCache("accommodation").get(1L)).isNull();
         accommodationService.findAccommodationById(1L);
-        assertThat(cacheManager.getCache("acmd").get(1L)).isNotNull();
+        assertThat(cacheManager.getCache("accommodation").get(1L)).isNotNull();
     }
 }
